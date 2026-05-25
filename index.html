@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorSuite AI — Roast · Facts · Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#09090f;--s1:#111119;--s2:#17171f;--s3:#1e1e28;--bd:#ffffff0c;--bd2:#ffffff18;--bd3:#ffffff28;--txt:#eeeef5;--mut:#77778a;--acc:#7c6dfa;--acc2:#a594ff;--fire:#ff5531;--fire2:#ff7a5c;--grn:#00b870;--grn2:#00d98a;--r:13px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.5}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:60px;background:rgba(9,9,15,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:34px;height:34px;background:var(--acc);border-radius:9px;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.logo-text{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--txt)}
+.logo-pill{font-size:9px;background:#7c6dfa25;color:var(--acc2);border:1px solid #7c6dfa35;padding:2px 7px;border-radius:20px;letter-spacing:.03em;margin-left:2px;vertical-align:middle}
+.tabs{display:flex;gap:4px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:4px}
+.tab{padding:7px 18px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--mut);transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab:hover{color:var(--txt)}
+.tab.active-r{background:#ff553118;color:var(--fire2)}
+.tab.active-g{background:#00b87018;color:var(--grn2)}
+.tab.active-p{background:#7c6dfa18;color:var(--acc2)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{display:block;width:21px;height:1.5px;background:var(--txt);border-radius:2px;transition:.2s}
+.mob-nav{display:none;flex-direction:column;gap:4px;padding:10px 16px 14px;border-bottom:1px solid var(--bd);background:var(--s1)}
+.mob-nav.open{display:flex}
+.mob-tab{padding:10px 14px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mut);text-align:left;font-family:'DM Sans',sans-serif;transition:.2s}
+.mob-tab.active-r{background:#ff553115;border-color:#ff553130;color:var(--fire2)}
+.mob-tab.active-g{background:#00b87015;border-color:#00b87030;color:var(--grn2)}
+.mob-tab.active-p{background:#7c6dfa15;border-color:#7c6dfa30;color:var(--acc2)}
+
+/* ── HERO ── */
+.hero{padding:64px 20px 52px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--bd2);border-radius:30px;padding:6px 16px;font-size:12px;color:var(--mut);margin-bottom:22px;letter-spacing:.02em}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--grn);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(30px,7vw,62px);font-weight:800;line-height:1.04;letter-spacing:-1.5px;margin-bottom:18px}
+.c-fire{color:var(--fire)}
+.c-grn{color:var(--grn)}
+.c-acc{color:var(--acc2)}
+.hero-sub{font-size:clamp(14px,2.2vw,17px);color:var(--mut);max-width:500px;margin:0 auto 36px;font-weight:300;line-height:1.75}
+.stats{display:inline-flex;border:1px solid var(--bd2);border-radius:14px;overflow:hidden;background:var(--s1)}
+.stat{padding:14px 28px;text-align:center;border-right:1px solid var(--bd)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:700}
+.stat-l{font-size:11px;color:var(--mut);margin-top:2px;letter-spacing:.02em}
+
+/* ── LAYOUT ── */
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+.panel{display:none;animation:up .28s ease}
+.panel.active{display:block}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.ch{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ci{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.ci-r{background:#ff553118;color:var(--fire)}
+.ci-g{background:#00b87018;color:var(--grn)}
+.ci-p{background:#7c6dfa18;color:var(--acc2)}
+.ct{font-family:'Syne',sans-serif;font-size:14px;font-weight:600}
+.cs{font-size:12px;color:var(--mut);margin-top:1px}
+
+/* ── INPUTS ── */
+.lbl{font-size:11px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;display:block}
+textarea,input[type=text],select{width:100%;background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--txt);outline:none;transition:border .2s;-webkit-appearance:none}
+textarea{resize:vertical}
+textarea:focus,input[type=text]:focus,select:focus{border-color:#7c6dfa50;background:var(--s3)}
+select option{background:#17171f}
+.fw{margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.grid2{grid-template-columns:1fr}}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;padding:6px 13px;border-radius:20px;border:1px solid var(--bd2);background:var(--s2);color:var(--mut);cursor:pointer;transition:all .17s;white-space:nowrap;user-select:none}
+.chip:hover{color:var(--txt);border-color:var(--bd3)}
+.ar{background:#ff553112;border-color:#ff553140;color:var(--fire2)!important}
+.ag{background:#00b87012;border-color:#00b87040;color:var(--grn2)!important}
+.ap{background:#7c6dfa12;border-color:#7c6dfa40;color:var(--acc2)!important}
+
+/* ── PILLS ── */
+.pill-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pill{border:1px solid var(--bd);border-radius:12px;padding:13px 8px;cursor:pointer;text-align:center;background:var(--s2);transition:all .17s;user-select:none}
+.pill:hover{border-color:var(--bd3)}
+.pill.ar{background:#ff55310e;border-color:#ff553148}
+.pill.ag{background:#00b8700e;border-color:#00b87048}
+.pill.ap{background:#7c6dfa0e;border-color:#7c6dfa48}
+.pe{font-size:17px;margin-bottom:5px}
+.pn{font-size:13px;font-weight:500;color:var(--txt)}
+.ph{font-size:11px;color:var(--mut);margin-top:2px}
+
+/* ── BUTTONS ── */
+.btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s;letter-spacing:.15px}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-r{background:var(--fire);color:#fff}.btn-r:hover:not(:disabled){background:var(--fire2)}
+.btn-g{background:var(--grn);color:#000}.btn-g:hover:not(:disabled){background:var(--grn2)}
+.btn-p{background:var(--acc);color:#fff}.btn-p:hover:not(:disabled){background:var(--acc2);color:#000}
+
+/* ── PROGRESS ── */
+.bar{height:2px;background:var(--s3);border-radius:2px;overflow:hidden;margin:10px 0;display:none}
+.bar-r{height:100%;background:var(--fire);animation:go 2.5s ease-in-out infinite}
+.bar-g{height:100%;background:var(--grn);animation:go 2.5s ease-in-out infinite}
+.bar-p{height:100%;background:var(--acc);animation:go 2.5s ease-in-out infinite}
+@keyframes go{0%{width:0%}60%{width:76%}100%{width:93%}}
+
+/* ── ERROR ── */
+.err{background:#ff553110;color:#ff8a75;border:1px solid #ff553128;border-radius:10px;padding:10px 14px;font-size:13px;display:none;margin-top:8px}
+
+/* ── RESULT ZONE ── */
+.rz{display:none;margin-top:14px;animation:up .3s ease}
+.rtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.rlbl{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
+.rbadge{font-size:11px;padding:3px 10px;border-radius:20px}
+.rb-r{background:#ff553118;color:var(--fire2);border:1px solid #ff553130}
+.rb-g{background:#00b87018;color:var(--grn2);border:1px solid #00b87030}
+.rb-p{background:#7c6dfa18;color:var(--acc2);border:1px solid #7c6dfa30}
+
+.roastbox{background:var(--s2);border:1px solid var(--bd2);border-radius:12px;padding:20px;font-size:15px;line-height:1.85;color:var(--txt);font-style:italic;border-left:3px solid var(--fire);border-top-left-radius:0;border-bottom-left-radius:0;border-radius:0 12px 12px 0}
+
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.metric{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:12px;text-align:center}
+.mn{font-family:'Syne',sans-serif;font-size:20px;font-weight:700}
+.ml{font-size:11px;color:var(--mut);margin-top:3px}
+
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.act{flex:1;min-width:80px;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 10px;border:1px solid var(--bd2);border-radius:10px;background:var(--s2);font-size:12px;cursor:pointer;color:var(--mut);transition:all .17s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.act:hover{color:var(--txt);border-color:var(--bd3);background:var(--s3)}
+
+/* ── EARN ── */
+.earn-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:500px){.earn-g{grid-template-columns:1fr 1fr}}
+.earn{border:1px solid var(--bd);border-radius:12px;padding:14px;background:var(--s1)}
+.e-ic{font-size:17px;margin-bottom:7px}
+.e-t{font-size:12px;font-weight:500;color:var(--txt);margin-bottom:3px}
+.e-amt{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--acc2);margin-bottom:3px}
+.e-d{font-size:11px;color:var(--mut);line-height:1.5}
+
+/* ── POSTS ── */
+.posts-list{display:flex;flex-direction:column;gap:10px}
+.pi{background:var(--s1);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.pi-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--s2)}
+.pi-day{font-size:11px;font-weight:600;background:#00b87018;color:var(--grn2);border:1px solid #00b87028;padding:3px 10px;border-radius:20px;font-family:'Syne',sans-serif}
+.pi-plat{font-size:11px;color:var(--mut)}
+.pi-body{font-size:13px;line-height:1.75;color:var(--txt);padding:14px;white-space:pre-wrap}
+.pi-ft{display:flex;gap:6px;padding:10px 14px;border-top:1px solid var(--bd)}
+.pi-act{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);font-size:12px;cursor:pointer;color:var(--mut);transition:all .17s;font-family:'DM Sans',sans-serif}
+.pi-act:hover{color:var(--txt);border-color:var(--bd2)}
+
+/* ── CALENDAR ── */
+.cal-dh-row{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
+.cal-dh{text-align:center;font-size:10px;font-weight:600;color:var(--mut);padding:4px 0;text-transform:uppercase;letter-spacing:.05em}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:12px}
+.cal-c{border:1px solid var(--bd);border-radius:8px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;background:var(--s2);transition:all .17s;padding:4px 2px}
+.cal-c:hover{border-color:var(--bd3)}
+.cal-c.has{background:#7c6dfa0e;border-color:#7c6dfa35}
+.cal-c.sel{border-color:var(--acc2);border-width:2px}
+.cal-n{font-size:12px;font-weight:600;color:var(--txt)}
+.cal-dot{width:4px;height:4px;border-radius:50%;background:var(--acc);display:none}
+.cal-c.has .cal-dot{display:block}
+.cal-prev{background:var(--s2);border:1px solid var(--bd2);border-radius:12px;padding:16px;min-height:70px}
+.cprev-t{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;margin-bottom:6px}
+.cprev-b{font-size:13px;color:var(--mut);line-height:1.6}
+
+.divider{height:1px;background:var(--bd);margin:16px 0}
+
+@media(max-width:640px){
+  nav{padding:0 14px;height:56px}
+  .tabs{display:none}
+  .hamburger{display:flex}
+  .hero{padding:40px 16px 36px}
+  .stats{flex-direction:column;min-width:200px}
+  .stat{border-right:none;border-bottom:1px solid var(--bd)}
+  .stat:last-child{border-bottom:none}
+  .acts{gap:6px}
+  .act{font-size:11px;padding:9px 7px}
+  .cal-n{font-size:11px}
+  .cal-c{min-height:36px}
+}
+@media(max-width:360px){
+  .pill-g{grid-template-columns:1fr 1fr}
+  .earn-g{grid-template-columns:1fr}
+  .metrics{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark">⚡</div>
+    <span class="logo-text">CreatorSuite<span class="logo-pill">AI</span></span>
+  </a>
+  <div class="tabs">
+    <button class="tab active-r" id="dt-r" onclick="go('r')">🔥 Roast</button>
+    <button class="tab" id="dt-g" onclick="go('g')">📸 Fact Posts</button>
+    <button class="tab" id="dt-p" onclick="go('p')">📅 Calendar</button>
+  </div>
+  <div class="hamburger" onclick="toggleNav()" id="hbg"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-tab active-r" id="mt-r" onclick="go('r');toggleNav()">🔥 Roast Generator</button>
+  <button class="mob-tab" id="mt-g" onclick="go('g');toggleNav()">📸 Fact Posts</button>
+  <button class="mob-tab" id="mt-p" onclick="go('p');toggleNav()">📅 Content Calendar</button>
+</div>
+
+<div class="hero">
+  <div class="eyebrow"><span class="pulse"></span> 3 AI tools · ₹0 cost · Start earning today</div>
+  <h1>Make money with<br><span class="c-fire">Roasts</span>, <span class="c-grn">Facts</span><br>&amp; <span class="c-acc">Content</span></h1>
+  <p class="hero-sub">AI-powered tools for Indian creators. Go viral on Instagram, earn from day one — completely free.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">₹0</div><div class="stat-l">Investment</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">AI tools</div></div>
+    <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Content</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ROAST -->
+<div class="panel active" id="panel-r">
+  <div class="card">
+    <div class="ch"><div class="ci ci-r">🎯</div><div><div class="ct">Who are we roasting?</div><div class="cs">Paste any bio or describe someone</div></div></div>
+    <div class="fw"><label class="lbl">Bio or description</label>
+    <textarea id="r-bio" rows="4" placeholder="e.g. 'Entrepreneur. Visionary. 3x failed founder. Building the future one hustle at a time. DM for collab.'"></textarea></div>
+    <label class="lbl">Quick examples</label>
+    <div class="chips">
+      <span class="chip" onclick="rFill('li')">💼 LinkedIn bro</span>
+      <span class="chip" onclick="rFill('ig')">📸 Insta influencer</span>
+      <span class="chip" onclick="rFill('gym')">🏋️ Gym guy</span>
+      <span class="chip" onclick="rFill('su')">🚀 Startup founder</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ci ci-r">⚙️</div><div><div class="ct">Roast settings</div></div></div>
+    <label class="lbl">Intensity</label>
+    <div class="pill-g" id="rl">
+      <div class="pill" data-v="Mild" onclick="setR(this,'l')"><div class="pe">🌶️</div><div class="pn">Mild</div><div class="ph">Friendly jab</div></div>
+      <div class="pill ar" data-v="Medium" onclick="setR(this,'l')"><div class="pe">🔥</div><div class="pn">Medium</div><div class="ph">Proper roast</div></div>
+      <div class="pill" data-v="Savage" onclick="setR(this,'l')"><div class="pe">💀</div><div class="pn">Savage</div><div class="ph">No mercy</div></div>
+    </div>
+    <label class="lbl" style="margin-top:14px">Style</label>
+    <div class="chips" id="rs">
+      <span class="chip ar" data-v="Witty one-liners" onclick="setR(this,'s')">Witty one-liners</span>
+      <span class="chip" data-v="Stand-up comedy style" onclick="setR(this,'s')">Stand-up comedy</span>
+      <span class="chip" data-v="Shakespearean dramatic" onclick="setR(this,'s')">Shakespearean</span>
+      <span class="chip" data-v="Desi Hindi-English mix (use yaar, bhai, ekdum naturally)" onclick="setR(this,'s')">Desi 🇮🇳</span>
+    </div>
+  </div>
+  <button class="btn btn-r" id="rb" onclick="genRoast()">🔥 Generate Roast</button>
+  <div class="bar" id="r-bar"><div class="bar-r"></div></div>
+  <div class="err" id="r-err"></div>
+  <div class="rz" id="r-res">
+    <div class="rtop"><span class="rlbl">🔥 Fresh roast delivered</span><span class="rbadge rb-r" id="r-badge">Medium heat</span></div>
+    <div class="roastbox" id="r-out"></div>
+    <div class="metrics">
+      <div class="metric"><div class="mn" id="r-wc">0</div><div class="ml">Words</div></div>
+      <div class="metric"><div class="mn" id="r-jc">0</div><div class="ml">Jokes</div></div>
+      <div class="metric"><div class="mn" id="r-ht">🔥🔥🔥</div><div class="ml">Burn level</div></div>
+    </div>
+    <div class="acts">
+      <button class="act" onclick="cpText('r-out',this)">📋 Copy roast</button>
+      <button class="act" onclick="shareWA()">💬 WhatsApp</button>
+      <button class="act" onclick="genRoast()">🔄 New roast</button>
+    </div>
+    <div class="divider"></div>
+    <label class="lbl">How to earn from this</label>
+    <div class="earn-g">
+      <div class="earn"><div class="e-ic">💰</div><div class="e-t">Roast packs</div><div class="e-amt">₹99</div><div class="e-d">10-friend bundle via UPI</div></div>
+      <div class="earn"><div class="e-ic">📢</div><div class="e-t">Ad revenue</div><div class="e-amt">₹5k/mo</div><div class="e-d">Once traffic grows</div></div>
+      <div class="earn"><div class="e-ic">⭐</div><div class="e-t">Savage unlock</div><div class="e-amt">₹29</div><div class="e-d">Premium per roast</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FACTS -->
+<div class="panel" id="panel-g">
+  <div class="card">
+    <div class="ch"><div class="ci ci-g">🎯</div><div><div class="ct">Choose your niche</div><div class="cs">Your Instagram page topic</div></div></div>
+    <div class="chips" id="fn">
+      <span class="chip ag" data-v="Dark history of India" onclick="fNch(this)">🇮🇳 Dark India history</span>
+      <span class="chip" data-v="Cricket and IPL surprising facts" onclick="fNch(this)">🏏 Cricket & IPL</span>
+      <span class="chip" data-v="Space and universe mind-blowing facts" onclick="fNch(this)">🚀 Space facts</span>
+      <span class="chip" data-v="Psychology tricks and mind hacks" onclick="fNch(this)">🧠 Psychology</span>
+      <span class="chip" data-v="Money and wealth building secrets" onclick="fNch(this)">💰 Money secrets</span>
+      <span class="chip" data-v="Bollywood dark secrets and scandals" onclick="fNch(this)">🎬 Bollywood</span>
+      <span class="chip" data-v="Ancient India and Hindu mythology facts" onclick="fNch(this)">🏛️ Ancient India</span>
+      <span class="chip" data-v="custom" onclick="fNch(this)">✏️ Custom</span>
+    </div>
+    <div id="f-cw" style="display:none;margin-top:10px">
+      <input type="text" id="f-cv" placeholder="Type your niche e.g. Football facts, Tech history..." />
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ci ci-g">📐</div><div><div class="ct">Format & quantity</div></div></div>
+    <div class="grid2">
+      <div class="fw"><label class="lbl">Platform format</label>
+      <select id="f-fmt">
+        <option value="Instagram caption with a viral hook and exactly 12 relevant hashtags at the end">Instagram + hashtags</option>
+        <option value="YouTube Shorts spoken script (15 seconds) with [PAUSE] cues">YouTube Shorts</option>
+        <option value="Twitter/X thread with 5 numbered tweets">Twitter/X thread</option>
+        <option value="WhatsApp broadcast message using *bold* asterisks and emojis">WhatsApp broadcast</option>
+      </select></div>
+      <div class="fw"><label class="lbl">Number of posts</label>
+      <select id="f-cnt">
+        <option value="3">3 posts</option>
+        <option value="5" selected>5 posts (half week)</option>
+        <option value="7">7 posts (full week)</option>
+      </select></div>
+    </div>
+  </div>
+  <button class="btn btn-g" id="fb" onclick="genFacts()">✨ Generate Posts</button>
+  <div class="bar" id="f-bar"><div class="bar-g"></div></div>
+  <div class="err" id="f-err"></div>
+  <div class="rz" id="f-res">
+    <div class="rtop"><span class="rlbl">✅ Posts ready to publish</span><span class="rbadge rb-g" id="f-badge">5 posts</span></div>
+    <div class="metrics">
+      <div class="metric"><div class="mn" id="f-pc">0</div><div class="ml">Posts</div></div>
+      <div class="metric"><div class="mn" id="f-dc">0</div><div class="ml">Days covered</div></div>
+      <div class="metric"><div class="mn" id="f-hc">0</div><div class="ml">Hashtags</div></div>
+    </div>
+    <div class="posts-list" id="f-list"></div>
+    <div class="acts" style="margin-top:12px">
+      <button class="act" onclick="cpAll()">📋 Copy all posts</button>
+      <button class="act" onclick="genFacts()">🔄 New batch</button>
+      <button class="act" onclick="toCalendar()">📅 Add to calendar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="panel" id="panel-p">
+  <div class="card">
+    <div class="ch"><div class="ci ci-p">📅</div><div><div class="ct">30-day content calendar</div><div class="cs">Your full posting roadmap</div></div></div>
+    <div class="grid2">
+      <div class="fw"><label class="lbl">Your niche</label>
+      <input type="text" id="cal-n" placeholder="e.g. Dark India history..." /></div>
+      <div class="fw"><label class="lbl">Platform</label>
+      <select id="cal-p">
+        <option>Instagram</option><option>YouTube Shorts</option><option>Twitter/X</option><option>WhatsApp</option>
+      </select></div>
+    </div>
+    <label class="lbl">Posting frequency</label>
+    <div class="chips" id="cf">
+      <span class="chip" data-v="daily (every day)" onclick="cFq(this)">Daily 7x/week</span>
+      <span class="chip ap" data-v="5 times per week (skip 2 days)" onclick="cFq(this)">5x per week</span>
+      <span class="chip" data-v="3 times per week" onclick="cFq(this)">3x per week</span>
+      <span class="chip" data-v="weekdays only Monday to Friday" onclick="cFq(this)">Weekdays only</span>
+    </div>
+  </div>
+  <button class="btn btn-p" id="pb" onclick="genCal()">📅 Generate 30-day calendar</button>
+  <div class="bar" id="p-bar"><div class="bar-p"></div></div>
+  <div class="err" id="p-err"></div>
+  <div class="rz" id="p-res">
+    <div class="card">
+      <div class="ch"><div class="ci ci-p">📊</div><div><div class="ct">Your 30-day plan</div><div class="cs" id="cal-sub">Tap any purple day to see topic</div></div></div>
+      <div class="metrics">
+        <div class="metric"><div class="mn" id="cal-tot">0</div><div class="ml">Posts planned</div></div>
+        <div class="metric"><div class="mn" id="cal-rch">—</div><div class="ml">Est. reach/post</div></div>
+        <div class="metric"><div class="mn" id="cal-ern">—</div><div class="ml">Month 3 income</div></div>
+      </div>
+      <div class="cal-dh-row" id="cal-dhr"></div>
+      <div class="cal-grid" id="cal-gr"></div>
+      <div class="cal-prev" id="cal-pv">
+        <div class="cprev-t">Select a day above</div>
+        <div class="cprev-b">Tap any highlighted day to see the content topic and posting tip.</div>
+      </div>
+    </div>
+    <div class="acts">
+      <button class="act" onclick="cpCal()">📋 Copy full plan</button>
+      <button class="act" onclick="genCal()">🔄 Regenerate</button>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+var rLv='Medium',rSt='Witty one-liners',fNv='Dark history of India',cFv='5 times per week (skip 2 days)',allP=[],calD=[];
+var rEx={li:"Results-driven synergy architect. Ex-McKinsey. Harvard MBA. Disrupting the disruption space. Speaker. Author. 3 failed startups. Open to coffee chats.",ig:"Living my best life ✨ | Travel addict 🌍 | Foodie 🍕 | Dog mom 🐶 | Manifesting my dreams | Collab: DM me | Follow my journey 👇",gym:"No days off. 5am club. Protein > everything. Don't talk to me before pre-workout. Mind. Body. Soul. Gains.",su:"Building the Uber for dog walks. Seed funded. YC reject but that's okay. 10x engineer. Sleeping 4hrs a night and proud. We're hiring! (unpaid)"};
+
+function go(t){
+  ['r','g','p'].forEach(id=>{
+    document.getElementById('panel-'+id).classList.toggle('active',id===t);
+    var dt=document.getElementById('dt-'+id);
+    var mt=document.getElementById('mt-'+id);
+    dt.className='tab'+(id===t?' active-'+t:'');
+    mt.className='mob-tab'+(id===t?' active-'+t:'');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleNav(){document.getElementById('mob-nav').classList.toggle('open');}
+function rFill(k){document.getElementById('r-bio').value=rEx[k];}
+function setR(el,type){
+  var g=type==='l'?'rl':'rs';
+  document.querySelectorAll('#'+g+' .pill, #'+g+' .chip').forEach(function(e){e.classList.remove('ar');});
+  el.classList.add('ar');
+  if(type==='l')rLv=el.dataset.v; else rSt=el.dataset.v;
+}
+function fNch(el){
+  document.querySelectorAll('#fn .chip').forEach(function(c){c.classList.remove('ag');});
+  el.classList.add('ag');fNv=el.dataset.v;
+  document.getElementById('f-cw').style.display=fNv==='custom'?'block':'none';
+}
+function cFq(el){
+  document.querySelectorAll('#cf .chip').forEach(function(c){c.classList.remove('ap');});
+  el.classList.add('ap');cFv=el.dataset.v;
+}
+
+async function genRoast(){
+  var bio=document.getElementById('r-bio').value.trim();
+  if(!bio){showErr('r','Paste a bio or description first!');return;}
+  load('r',true,'🔥 Roasting...');
+  try{
+    var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,messages:[{role:"user",content:"You are a world-class roast comedian. Write a "+rLv+" intensity roast in "+rSt+" style.\n\nBio: \""+bio+"\"\n\nRules:\n- Every joke must reference actual specific details from the bio\n- Funny and clever, NOT genuinely cruel or hateful\n- 3-5 sharp punchlines or one strong paragraph\n- End with a backhanded compliment\n- Keep it shareable on WhatsApp\n\nWrite ONLY the roast. Start directly."}]})});
+    var d=await res.json();
+    if(d.error)throw new Error(d.error.message);
+    var roast=d.content.map(function(c){return c.text||'';}).join('');
+    document.getElementById('r-out').textContent=roast;
+    document.getElementById('r-wc').textContent=roast.split(/\s+/).length;
+    document.getElementById('r-jc').textContent=roast.split(/[.!?]+/).filter(function(s){return s.trim().length>8;}).length;
+    document.getElementById('r-ht').textContent=rLv==='Mild'?'🌶️🌶️':rLv==='Medium'?'🔥🔥🔥':'💀💀💀';
+    document.getElementById('r-badge').textContent=rLv+' heat';
+    show('r-res');
+  }catch(e){showErr('r','Something went wrong. Try again!');}
+  finally{load('r',false,'🔥 Generate Roast');}
+}
+function shareWA(){
+  var t=document.getElementById('r-out').textContent;
+  window.open('https://wa.me/?text='+encodeURIComponent('😂 AI just roasted someone:\n\n'+t+'\n\nGet your free roast!'));
+}
+
+async function genFacts(){
+  var niche=fNv==='custom'?document.getElementById('f-cv').value.trim():fNv;
+  if(!niche){showErr('f','Pick or type a niche!');return;}
+  var cnt=parseInt(document.getElementById('f-cnt').value);
+  var fmt=document.getElementById('f-fmt').value;
+  load('f',true,'✨ Generating...');
+  try{
+    var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Generate exactly "+cnt+" viral social media posts for a "+niche+" page.\nFormat: "+fmt+"\n\nEach post:\n1. Start with a scroll-stopping shocking hook\n2. Share 1 specific TRUE fact with real details (year, number, name)\n3. Add an insight that makes reader think\n4. End with an engagement question\n\nSeparate posts with exactly: ---END---\nWrite ONLY the posts. No labels or intro."}]})});
+    var d=await res.json();
+    if(d.error)throw new Error(d.error.message);
+    var raw=d.content.map(function(c){return c.text||'';}).join('');
+    allP=raw.split('---END---').map(function(p){return p.trim();}).filter(function(p){return p.length>30;});
+    var cont=document.getElementById('f-list');
+    cont.innerHTML='';
+    allP.forEach(function(post,i){
+      var div=document.createElement('div');
+      div.className='pi';
+      div.innerHTML='<div class="pi-hd"><span class="pi-day">Day '+(i+1)+'</span><span class="pi-plat">'+fmt.split(' ')[0]+'</span></div><div class="pi-body">'+esc(post)+'</div><div class="pi-ft"><button class="pi-act" onclick="cpPost('+i+',this)">📋 Copy</button><button class="pi-act" onclick="window.open(\'https://wa.me/?text=\'+encodeURIComponent(allP['+i+']))">💬 WhatsApp</button></div>';
+      cont.appendChild(div);
+    });
+    var tags=allP.reduce(function(a,p){return a+(p.match(/#\w+/g)||[]).length;},0);
+    document.getElementById('f-pc').textContent=allP.length;
+    document.getElementById('f-dc').textContent=allP.length;
+    document.getElementById('f-hc').textContent=tags;
+    document.getElementById('f-badge').textContent=allP.length+' posts ready';
+    show('f-res');
+  }catch(e){showErr('f','Something went wrong. Try again!');}
+  finally{load('f',false,'✨ Generate Posts');}
+}
+function cpPost(i,btn){
+  navigator.clipboard.writeText(allP[i]).catch(function(){});
+  var o=btn.textContent;btn.textContent='✅ Copied!';setTimeout(function(){btn.textContent=o;},1500);
+}
+function cpAll(){
+  var t=allP.map(function(p,i){return '=== POST '+(i+1)+' ===\n'+p;}).join('\n\n');
+  navigator.clipboard.writeText(t).catch(function(){});
+}
+function toCalendar(){
+  var n=fNv==='custom'?document.getElementById('f-cv').value:fNv;
+  document.getElementById('cal-n').value=n;
+  go('p');
+}
+
+async function genCal(){
+  var niche=document.getElementById('cal-n').value.trim();
+  var plat=document.getElementById('cal-p').value;
+  if(!niche){showErr('p','Enter your niche first!');return;}
+  load('p',true,'📅 Building...');
+  try{
+    var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Create a 30-day content calendar for a "+niche+" page on "+plat+". Frequency: "+cFv+".\n\nReturn ONLY a raw JSON array of exactly 30 objects with no markdown, no backticks, no explanation:\n[{\"day\":1,\"post\":true,\"topic\":\"Short topic title max 6 words\",\"tip\":\"One actionable posting tip max 10 words\"},{\"day\":2,\"post\":false,\"topic\":\"\",\"tip\":\"\"},...]\n\nSet post:false for rest days based on frequency. Raw JSON array only."}]})});
+    var d=await res.json();
+    if(d.error)throw new Error(d.error.message);
+    var raw=d.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
+    calD=JSON.parse(raw);
+    renderCal(calD,niche,plat);
+    show('p-res');
+  }catch(e){showErr('p','Could not generate. Try again!');}
+  finally{load('p',false,'📅 Generate 30-day calendar');}
+}
+function renderCal(data,niche,plat){
+  var days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  document.getElementById('cal-dhr').innerHTML=days.map(function(d){return '<div class="cal-dh">'+d+'</div>';}).join('');
+  var grid=document.getElementById('cal-gr');
+  grid.innerHTML='';
+  var total=data.filter(function(x){return x.post;}).length;
+  document.getElementById('cal-tot').textContent=total;
+  document.getElementById('cal-rch').textContent=total>15?'2k–10k':'500–2k';
+  document.getElementById('cal-ern').textContent=total>15?'₹15k+':'₹5k+';
+  document.getElementById('cal-sub').textContent=niche+' · '+plat;
+  data.forEach(function(item){
+    var el=document.createElement('div');
+    el.className='cal-c'+(item.post?' has':'');
+    el.innerHTML='<div class="cal-n">'+item.day+'</div><div class="cal-dot"></div>';
+    el.onclick=function(){
+      document.querySelectorAll('.cal-c').forEach(function(c){c.classList.remove('sel');});
+      el.classList.add('sel');
+      document.getElementById('cal-pv').innerHTML=item.post
+        ?'<div class="cprev-t">Day '+item.day+' — '+item.topic+'</div><div class="cprev-b">💡 '+item.tip+'</div>'
+        :'<div class="cprev-t">Day '+item.day+' — Rest day</div><div class="cprev-b">Take a break. Plan tomorrow\'s content tonight. Consistency wins.</div>';
+    };
+    grid.appendChild(el);
+  });
+}
+function cpCal(){
+  var t=calD.filter(function(x){return x.post;}).map(function(x){return 'Day '+x.day+': '+x.topic+'\nTip: '+x.tip;}).join('\n\n');
+  navigator.clipboard.writeText(t).catch(function(){});
+}
+
+function load(id,on,label){
+  var btn=document.getElementById(id+'b')||document.getElementById(id+'-btn');
+  if(!btn)btn=document.getElementById(id+'b');
+  btn.disabled=on;
+  btn.innerHTML=on?'⏳ '+label:label;
+  document.getElementById(id+'-bar'||id+'bar').style.display=on?'block':'none';
+  if(!on&&document.getElementById(id+'-err'))document.getElementById(id+'-err').style.display='none';
+}
+function show(id){
+  var el=document.getElementById(id);
+  el.style.display='block';
+  setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+}
+function showErr(id,msg){
+  var el=document.getElementById(id+'-err');
+  el.textContent=msg;el.style.display='block';
+  setTimeout(function(){el.style.display='none';},4000);
+}
+function cpText(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent).catch(function(){});
+  var o=btn.innerHTML;btn.innerHTML='✅ Copied!';setTimeout(function(){btn.innerHTML=o;},1500);
+}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// fix bar IDs
+document.addEventListener('DOMContentLoaded',function(){
+  function loadFix(id,on,label){
+    var bi=id==='r'?'rb':id==='f'?'fb':'pb';
+    var btn=document.getElementById(bi);
+    var bar=document.getElementById(id+'-bar');
+    if(btn){btn.disabled=on;btn.innerHTML=on?'⏳ '+label:label;}
+    if(bar)bar.style.display=on?'block':'none';
+  }
+  window.load=loadFix;
+});
+</script>
+</body>
+</html>
