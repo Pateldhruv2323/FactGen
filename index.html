@@ -11,29 +11,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.5}
 
-/* GATE */
-.gate{position:fixed;inset:0;background:rgba(9,9,15,.98);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-.gate-box{background:var(--s1);border:1px solid var(--bd2);border-radius:20px;padding:32px 28px;max-width:440px;width:100%;text-align:center}
-.gate-icon{width:50px;height:50px;background:var(--grn);border-radius:14px;display:grid;place-items:center;font-size:22px;margin:0 auto 18px}
-.gate-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;color:var(--txt);margin-bottom:6px}
-.gate-sub{font-size:13px;color:var(--mut);line-height:1.7;margin-bottom:22px}
-.free-badge{display:inline-flex;align-items:center;gap:6px;background:#00b87015;border:1px solid #00b87030;color:var(--grn2);font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;margin-bottom:20px}
-.steps{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left}
-.step{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;background:var(--s2);border-radius:10px;border:1px solid var(--bd)}
-.snum{width:20px;height:20px;background:var(--grn);border-radius:5px;display:grid;place-items:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0;margin-top:1px}
-.stext{font-size:12px;color:var(--txt);line-height:1.5}
-.stext a{color:var(--grn2);text-decoration:none}
-.stext a:hover{text-decoration:underline}
-.stext span{color:var(--mut);font-size:11px;display:block;margin-top:2px}
-.gate-inp{width:100%;background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:12px 15px;font-size:14px;font-family:inherit;color:var(--txt);outline:none;margin-bottom:10px;letter-spacing:.04em}
-.gate-inp:focus{border-color:#00b87044}
-.gate-inp::placeholder{color:var(--mut);letter-spacing:0}
-.gate-btn{width:100%;padding:13px;background:var(--grn);color:#000;border:none;border-radius:11px;font-size:15px;font-family:'Syne',sans-serif;font-weight:800;cursor:pointer;transition:all .18s;margin-bottom:12px}
-.gate-btn:hover{background:var(--grn2)}
-.gate-note{font-size:11px;color:var(--mut);line-height:1.6}
-.gate-note a{color:var(--acc2);text-decoration:none}
-.gate-err{background:#ff553115;color:#ff8a75;border:1px solid #ff553128;border-radius:8px;padding:8px 12px;font-size:12px;display:none;margin-bottom:10px}
-
 /* NAV */
 nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;background:rgba(9,9,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
@@ -200,40 +177,6 @@ select option{background:#17171f}
 </head>
 <body>
 
-<!-- FREE API KEY GATE -->
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <div class="gate-icon">🆓</div>
-    <div class="gate-title">100% Free to use</div>
-    <div class="gate-sub">This app uses <strong style="color:var(--txt)">Groq's free API</strong> — no credit card, no charges, ever. Just get a free key in 2 minutes.</div>
-    <div class="free-badge"><span style="width:5px;height:5px;border-radius:50%;background:var(--grn);display:inline-block"></span> Groq Free Tier — ₹0 forever</div>
-    <div class="steps">
-      <div class="step">
-        <div class="snum">1</div>
-        <div class="stext">Go to <a href="https://console.groq.com" target="_blank">console.groq.com</a> and sign up free
-          <span>Only email needed — no credit card, no charges ever</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="snum">2</div>
-        <div class="stext">Click "API Keys" → "Create API Key" → copy it
-          <span>Starts with gsk_...</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="snum">3</div>
-        <div class="stext">Paste it below and click Start
-          <span>Saved in your browser — never sent anywhere</span>
-        </div>
-      </div>
-    </div>
-    <div class="gate-err" id="gate-err"></div>
-    <input class="gate-inp" type="password" id="api-inp" placeholder="gsk_..." autocomplete="off"/>
-    <button class="gate-btn" onclick="startApp()">Start Creating — It's Free ⚡</button>
-    <div class="gate-note">Your key is stored only in your browser's localStorage. It is never sent to any server other than Groq's own API. <a href="https://console.groq.com/docs/openai" target="_blank">Groq docs →</a></div>
-  </div>
-</div>
-
 <!-- APP -->
 <nav>
   <a class="logo" href="#">
@@ -241,9 +184,6 @@ select option{background:#17171f}
     <span class="logo-text">CreatorSuite<span class="logo-pill">AI</span></span>
   </a>
   <div class="nav-right">
-    <div class="api-chip" onclick="resetKey()" title="Click to change key">
-      <span class="api-dot"></span> Groq Free
-    </div>
     <div class="tabs">
       <button class="tab ar" id="dt-r" onclick="go('r')">🔥 Roast</button>
       <button class="tab" id="dt-g" onclick="go('g')">📸 Facts</button>
@@ -425,7 +365,7 @@ select option{background:#17171f}
 </div>
 
 <script>
-var KEY='',rLv='Medium',rSt='Witty one-liners',fNv='Dark history of India',cFv='5 times per week skip 2 rest days',allP=[],calD=[];
+var KEY='YOUR_GROQ_KEY_HERE',rLv='Medium',rSt='Witty one-liners',fNv='Dark history of India',cFv='5 times per week skip 2 rest days',allP=[],calD=[];
 var rEx={
   li:"Results-driven synergy architect. Ex-McKinsey. Harvard MBA. Currently disrupting the disruption space. Speaker. Author. 3 failed startups. Open to coffee chats.",
   ig:"Living my best life ✨ | Travel addict 🌍 | Foodie 🍕 | Dog mom 🐶 | Manifesting my dreams | Collab: DM me | Follow my journey 👇",
@@ -448,13 +388,6 @@ function startApp(){
   localStorage.setItem('cs_groq_key',k);
   document.getElementById('gate').style.display='none';
 }
-function resetKey(){
-  if(confirm('Change your Groq API key?')){
-    localStorage.removeItem('cs_groq_key');
-    KEY='';
-    document.getElementById('api-inp').value='';
-    document.getElementById('gate').style.display='flex';
-  }
 }
 
 function go(t){
